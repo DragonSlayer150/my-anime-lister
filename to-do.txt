@@ -1,0 +1,8 @@
+Commands: 
+    Adding user to the list / Removing users from the list
+    Setting channel for the reports (Option to set the current channel | to select a different channel through ID)
+
+Make sure that the user list remains after restart
+Get the RSS feed off of MAL
+RSS parser and response generator (Can install RSS parser through npm?)
+
