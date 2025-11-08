@@ -2,7 +2,10 @@ const { ChannelType, SlashCommandBuilder } = require("discord.js");
 const { Keyv } = require("keyv");
 const { KeyvSqlite } = require("@keyv/sqlite");
 const keyv = new Keyv(new KeyvSqlite("sqlite://users.sqlite"));
+
 keyv.on('error', (err) => console.error('Keyv connection error:', err));
+const urlPrefix = 'https://myanimelist.net/rss.php?type=rwe&u=';
+
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -29,6 +32,19 @@ module.exports = {
                        
                     
     async execute(interaction) {
-        interaction.reply("The interaction of all time");
+        switch (interaction.options.getSubcommand()) {
+            case 'adduser': 
+                const username = interaction.options.getString('username');
+
+                await keyv.set(username, urlPrefix + username);
+                await interaction.reply(`Added ${username} to the listing`);
+                break;
+            case 'setchannel':
+                const channel = interaction.options.getChannel('channel');
+                await interaction.reply(`The selected channel is ${channel}`);
+                break;
+        }
+
+
     },
 };
