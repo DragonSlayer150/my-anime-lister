@@ -6,12 +6,15 @@ async function fetchTest() {
 
 const response = await fetch('https://myanimelist.net/rss.php?type=rwe&u=DragonSlayer150');
 const body = await response.text();
+const feedArray = body.replaceAll(/(<\/item>|<\/channel><\/rss>)/g, " ").split("<item>");
 
-fs.writeFile('./rss.txt', body, err => {
-    if(err) {
+for (let i = 1; i < feedArray.length; i++) {
+    try {
+        fs.appendFileSync('./rss.txt', feedArray[i]);
+    } catch (err) {
         console.error(err);
-    } else {
-        console.log('file written');
     }
-});
+}
+console.log("Wrote File");
+
 };
